@@ -1,1 +1,1 @@
-web: gunicorn tada:app
+web: make app
