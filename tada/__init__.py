@@ -5,7 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 os.environ.setdefault('TADA_SETTINGS', '../config/development.py')
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('config.shared')
 app.config.from_envvar('TADA_SETTINGS')
 
 db = SQLAlchemy(app)
