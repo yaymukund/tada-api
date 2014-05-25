@@ -37,7 +37,7 @@ class TestIndex(TestTada):
         data = json.loads(response.get_data())
         descriptions = [ task['description'] for task in data['tasks'] ]
 
-        assert set(descriptions) == set([
+        assert sorted(descriptions) == sorted([
             'Get more milk',
             'Feed a cow',
             'Purchase a CD',
