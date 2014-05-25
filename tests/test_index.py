@@ -11,36 +11,30 @@ class TestIndex(TestTada):
         assert not data['tasks']
 
     def test_1_task_index(self):
-        self.make_task(description='Get some milk', rank=0)
+        self.make_task(description = 'Get some milk', rank = 0)
         response = self.app.get('/tasks')
 
-        data = json.loads(response.get_data())
-        assert len(data['tasks']) == 1
-
-        task = data['tasks'][0]
-        assert task['description'] == 'Get some milk'
-        assert task['rank'] == 0
-        assert task['created_at']
-        assert task['updated_at']
-        assert task['id']
+        tasks = json.loads(response.get_data())['tasks']
+        assert len(tasks) == 1
+        assert tasks[0]['description'] == 'Get some milk'
+        assert tasks[0]['rank'] == 0
+        assert tasks[0]['created_at']
+        assert tasks[0]['updated_at']
+        assert tasks[0]['id']
 
     def test_5_tasks_index(self):
-        self.make_tasks([
+        fixtures = [
             { 'description': 'Get more milk', 'rank': 0 },
             { 'description': 'Feed a cow', 'rank': 1 },
             { 'description': 'Purchase a CD', 'rank': 2 },
             { 'description': 'Drink some more milk', 'rank': 3 },
             { 'description': 'Take up goat farming', 'rank': 4 },
-        ])
+        ]
 
+        self.make_tasks(fixtures)
         response = self.app.get('/tasks')
         data = json.loads(response.get_data())
         descriptions = [ task['description'] for task in data['tasks'] ]
+        expected_descriptions = [ task['description'] for task in fixtures ]
 
-        assert sorted(descriptions) == sorted([
-            'Get more milk',
-            'Feed a cow',
-            'Purchase a CD',
-            'Drink some more milk',
-            'Take up goat farming',
-        ])
+        assert sorted(descriptions) == sorted(expected_descriptions)
