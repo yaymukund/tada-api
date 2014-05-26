@@ -9,5 +9,4 @@ class TestNotFound(TestTada):
 
     def test_404_response_data(self):
         response = self.app.get('/')
-        data = json.loads(response.get_data())
-        assert data['error'] == '404 Not Found'
+        assert '404 Not Found' in response.get_data(as_text = True)

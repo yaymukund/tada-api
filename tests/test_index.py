@@ -17,7 +17,7 @@ class TestIndex(TestTada):
         tasks = json.loads(response.get_data())['tasks']
         assert len(tasks) == 1
         assert tasks[0]['description'] == 'Get some milk'
-        assert tasks[0]['rank'] == 0
+        assert tasks[0]['position'] == 0
         assert tasks[0]['created_at']
         assert tasks[0]['updated_at']
         assert tasks[0]['id']
@@ -33,8 +33,8 @@ class TestIndex(TestTada):
 
         self.make_tasks(fixtures)
         response = self.app.get('/tasks')
-        data = json.loads(response.get_data())
-        descriptions = [ task['description'] for task in data['tasks'] ]
+        tasks = json.loads(response.get_data())['tasks']
+        descriptions = [ task['description'] for task in tasks ]
         expected_descriptions = [ task['description'] for task in fixtures ]
 
         assert sorted(descriptions) == sorted(expected_descriptions)

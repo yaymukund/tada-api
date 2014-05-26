@@ -1,4 +1,4 @@
-.PHONY: app db console
+.PHONY: app db console test
 
 app:
 	gunicorn tada:app
@@ -11,3 +11,6 @@ console:
 
 sql:
 	psql -d tada_dev
+
+test:
+	nosetests
