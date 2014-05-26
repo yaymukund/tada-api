@@ -4,9 +4,9 @@ from tests.helpers import TestTada
 class TestNotFound(TestTada):
 
     def test_404_response_code(self):
-        response = self.app.get('/')
+        response = self.app.get('/nonsense')
         assert response.status_code == 404
 
     def test_404_response_data(self):
-        response = self.app.get('/')
+        response = self.app.get('/nonsense')
         assert '404 Not Found' in response.get_data(as_text = True)
