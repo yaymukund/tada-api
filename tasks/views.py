@@ -13,8 +13,11 @@ def index():
 
 @blueprint.route('/tasks', methods = ['POST'])
 def create():
-    description = request.form.get('description', '')
-    description = description.strip()
+    json = request.get_json()
+    if not json:
+        return jsonify(error = 'Requests must contain a JSON body.'), 400
+
+    description = json.get('task', {}).get('description', '').strip()
 
     if not description:
         return jsonify(error = 'Description cannot be empty'), 400
@@ -42,9 +45,11 @@ def update(task_id):
 
     if 'position' in json and json['position'] != task.rank:
         results = task.move_to(json['position'])
+    else:
+        results = None
 
     if 'completed_at' in json and json['completed_at'] != task.completed_at:
-        task.completed_at = completed_at
+        task.completed_at = json['completed_at']
         db.session.add(task)
 
     db.session.commit()
@@ -59,6 +64,7 @@ def update(task_id):
                 'id': result.id,
                 'position': result.rank,
                 'description': result.description,
+                'completed_at': result.completed_at,
                 'created_at': result.created_at,
                 'updated_at': result.updated_at,
             })

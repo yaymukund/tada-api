@@ -30,6 +30,7 @@ class Task(db.Model):
                 Task.id,
                 Task.created_at,
                 Task.updated_at,
+                Task.completed_at,
                 Task.rank,
                 Task.description,
             )
