@@ -6,6 +6,9 @@ app:
 db:
 	postgres -D /usr/local/var/postgres
 
+migrate:
+	python seed.py
+
 console:
 	python shell.py
 
@@ -14,3 +17,6 @@ sql:
 
 test:
 	nosetests
+
+install:
+	pip install -r requirements.txt
