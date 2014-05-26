@@ -7,7 +7,7 @@ db:
 	postgres -D /usr/local/var/postgres
 
 migrate:
-	python seed.py
+	python migrate.py
 
 console:
 	python shell.py
