@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tada</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="/" />
+
+    <link rel="stylesheet" href="assets/tada.css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <script>
+      window.ENV = {"baseURL":"/","locationType":"auto","FEATURES":{},"APP":{}};
+    </script>
+    <script src="assets/tada.js"></script>
+    <script>
+      window.Tada = require('tada/app')['default'].create(ENV.APP);
+    </script>
+  </body>
+</html>
