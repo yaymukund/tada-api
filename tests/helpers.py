@@ -1,10 +1,8 @@
 import os
 os.environ['TADA_SETTINGS_PATH'] = 'config/test.py'
 
-from tada import app, db, Task
-from flask import json
-import unittest
-import tempfile
+from tada import app, db
+from tasks.models import Task
 
 class TestTada():
 
