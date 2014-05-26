@@ -35,27 +35,34 @@ def create():
 @blueprint.route('/tasks/<int:task_id>', methods = ['PUT'])
 def update(task_id):
     task = Task.query.get_or_404(task_id)
+    json = request.get_json().get('task', None)
 
-    try:
-        json = request.get_json()
-        new_position = json['task']['position']
-    except KeyError:
-        new_position = None
+    if not json:
+        return jsonify(error = 'Error: No task object found'), 400
 
-    if not new_position:
-        return jsonify(error = 'Task position cannot be empty'), 400
+    if 'position' in json and json['position'] != task.rank:
+        results = task.move_to(json['position'])
 
-    results = task.move_to(new_position)
+    if 'completed_at' in json and json['completed_at'] != task.completed_at:
+        task.completed_at = completed_at
+        db.session.add(task)
+
     db.session.commit()
-    tasks = []
+    response = {}
 
-    for result in results:
-        tasks.append({
-            'id': result.id,
-            'position': result.rank,
-            'description': result.description,
-            'created_at': result.created_at,
-            'updated_at': result.updated_at,
-        })
+    # `results` doesn't get populated until we perform the commit.
+    if results:
+        response['tasks'] = []
 
-    return jsonify(tasks = tasks, task = task.as_dict()), 200
+        for result in results:
+            response['tasks'].append({
+                'id': result.id,
+                'position': result.rank,
+                'description': result.description,
+                'created_at': result.created_at,
+                'updated_at': result.updated_at,
+            })
+
+    response['task'] = task.as_dict()
+
+    return jsonify(response), 200
