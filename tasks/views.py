@@ -1,8 +1,9 @@
 from tada import db
 from tasks.models import Task
-from tasks import tasks as blueprint
-from flask import jsonify, request
+from flask import jsonify, request, Blueprint
 from sqlalchemy import func
+
+blueprint = Blueprint('tasks', __name__)
 
 @blueprint.route('/tasks', methods = ['GET'])
 def index():
