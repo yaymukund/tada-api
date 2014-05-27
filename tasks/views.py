@@ -14,10 +14,13 @@ def index():
 @blueprint.route('/tasks', methods = ['POST'])
 def create():
     json = request.get_json()
-    if not json:
-        return jsonify(error = 'Requests must contain a JSON body.'), 400
 
-    description = json.get('task', {}).get('description', '').strip()
+    try:
+        description = json['task']['description'] or ''
+        description = description.strip()
+    except (KeyError, TypeError):
+        msg = 'PUT should be in the form { "task": { "description": "..." }}'
+        return jsonify(error = msg), 400
 
     if not description:
         return jsonify(error = 'Description cannot be empty'), 400

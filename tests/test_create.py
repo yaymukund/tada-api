@@ -14,6 +14,13 @@ class TestCreate(TestTada):
         response = self.api_post('/tasks', data = data)
         body = response.get_data(as_text = True)
         assert response.status_code == 400
+        assert 'PUT should be in the form' in body
+
+    def test_create_without_description(self):
+        data = { 'task': { 'description': None }}
+        response = self.api_post('/tasks', data = data)
+        body = response.get_data(as_text = True)
+        assert response.status_code == 400
         assert 'Description cannot be empty' in body
 
     def test_create_with_description(self):
